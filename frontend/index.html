@@ -1,0 +1,635 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AI DisasterSense</title>
+
+    <link rel="stylesheet" href="style.css">
+     <!-- Leaflet CSS -->
+      <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+</head>
+<body>
+   
+    <div class="background">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+<header>
+
+        <div class="brand">
+            <div class="brand-icon">DS</div>
+
+            <div>
+                <h2>DisasterSense</h2>
+                <small>AI RESPONSE SYSTEM</small>
+            </div>
+        </div>
+        <nav>
+            <a class="active" href="#home">Overview</a>
+            <a href="#risks">Risk Analysis</a>
+            <a href="#alerts">Alerts</a>
+            <a href="#map">Live Map</a>
+            <a href="#assistant">AI Assistant</a>
+        </nav>
+        <div class="live">
+            <span></span>
+            LIVE
+        </div>
+
+    </header>
+    <!-- MAIN -->
+
+    <main id="home">
+        <!-- HERO -->
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <div class="mini-title">
+                    ◉ AI DISASTER INTELLIGENCE
+                </div>
+
+                <h1>
+                    Predict.
+                    <span>Protect.</span>
+                    Respond.
+                </h1>
+
+                <p>
+                    An intelligent disaster monitoring platform that
+                    analyzes environmental conditions and identifies
+                    potential disaster risks before they escalate.
+                </p>
+
+
+                <div class="hero-buttons">
+
+                    <button
+    class="primary-btn scan-btn"
+    id="runScanBtn"
+    onclick="startScan()">
+    ⚡ Run Risk Scan
+        </button>
+
+                    <button
+                        class="secondary-btn"
+                        onclick="showAlert()">
+                        🚨 Emergency Center
+                    </button>
+
+                </div>
+
+
+                <div class="system-info">
+
+                    <div>
+                        <b>24/7</b>
+                        <small>Monitoring</small>
+                    </div>
+
+                    <div>
+                        <b>AI</b>
+                        <small>Prediction</small>
+                    </div>
+
+                    <div>
+                        <b>LIVE</b>
+                        <small>Risk Updates</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+           
+
+            <div class="radar-container">
+
+                <div class="radar">
+
+                    <div class="radar-circle c1"></div>
+                    <div class="radar-circle c2"></div>
+                    <div class="radar-circle c3"></div>
+
+                    <div class="radar-line"></div>
+
+                    <div class="radar-point p1">●</div>
+                    <div class="radar-point p2">●</div>
+                    <div class="radar-point p3">●</div>
+
+                    <div class="radar-center">
+                        AI
+                    </div>
+
+                </div>
+
+                <div class="radar-label">
+                    LIVE RISK RADAR
+                </div>
+
+            </div>
+
+        </section>
+
+
+        
+
+        <section id="risks">
+
+            <div class="section-heading">
+
+                <div>
+                    <small>REAL-TIME ANALYTICS</small>
+                    <h2>Disaster Risk Monitor</h2>
+                </div>
+
+                <div id="scanStatus">
+                    SYSTEM READY
+                </div>
+
+            </div>
+
+
+            <div class="risk-grid">
+
+
+              
+
+                <div class="risk-card flood">
+
+                    <div class="card-top">
+
+                        <div class="disaster-icon">
+                            🌊
+                        </div>
+
+                        <span class="status low">
+                            LOW
+                        </span>
+
+                    </div>
+
+                    <h3>Flood Risk</h3>
+
+                    <div class="risk-number">
+                        <span id="floodRisk">24</span>%
+                    </div>
+
+                    <div class="progress">
+                        <div
+                            id="floodProgress"
+                            style="width:24%">
+                        </div>
+                    </div>
+
+                    <p>
+                        Rainfall and water-level conditions
+                        are currently stable.
+                    </p>
+
+                </div>
+
+
+                <!-- FIRE -->
+
+                <div class="risk-card fire">
+
+                    <div class="card-top">
+
+                        <div class="disaster-icon">
+                            🔥
+                        </div>
+
+                        <span class="status medium">
+                            MODERATE
+                        </span>
+
+                    </div>
+
+                    <h3>Forest Fire</h3>
+
+                    <div class="risk-number">
+                        48%
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:48%"></div>
+                    </div>
+
+                    <p>
+                        Temperature and humidity indicate
+                        moderate fire conditions.
+                    </p>
+
+                </div>
+
+
+
+                <div class="risk-card storm">
+
+                    <div class="card-top">
+
+                        <div class="disaster-icon">
+                            🌪️
+                        </div>
+
+                        <span class="status low">
+                            LOW
+                        </span>
+
+                    </div>
+
+                    <h3>Storm Risk</h3>
+
+                    <div class="risk-number">
+                        19%
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:19%"></div>
+                    </div>
+
+                    <p>
+                        Wind and atmospheric conditions
+                        remain within normal levels.
+                    </p>
+
+                </div>
+
+
+                <!-- EARTHQUAKE -->
+
+                <div class="risk-card earthquake">
+
+                    <div class="card-top">
+
+                        <div class="disaster-icon">
+                            🌍
+                        </div>
+
+                        <span class="status low">
+                            LOW
+                        </span>
+
+                    </div>
+
+                    <h3>Earthquake</h3>
+
+                    <div class="risk-number">
+                        11%
+                    </div>
+
+                    <div class="progress">
+                        <div style="width:11%"></div>
+                    </div>
+
+                    <p>
+                        No significant seismic activity
+                        detected.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        
+
+        <section class="control-section">
+
+            <div class="control-card">
+
+                <div class="control-header">
+
+                    <div>
+                        <small>DISASTER CONTROL CENTER</small>
+                        <h2>Operational Overview</h2>
+                    </div>
+
+                    <div class="online">
+                        ● ALL SYSTEMS OPERATIONAL
+                    </div>
+
+                </div>
+
+
+                <div class="stats-grid">
+
+                    <div class="stat">
+                        <span>📡</span>
+                        <b>18</b>
+                        <small>Active Sensors</small>
+                    </div>
+
+                    <div class="stat">
+                        <span>📍</span>
+                        <b>07</b>
+                        <small>Monitored Zones</small>
+                    </div>
+
+                    <div class="stat">
+                        <span>⚠️</span>
+                        <b id="activeAlerts">02</b>
+                        <small>Active Alerts</small>
+                    </div>
+
+                    <div class="stat">
+                        <span>👥</span>
+                        <b>12.4K</b>
+                        <small>People Monitored</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    
+
+<section class="sensor-section">
+
+    <div class="section-heading">
+        <div>
+            <small>AI FLOOD DETECTION</small>
+            <h2>Sensor Data Input</h2>
+        </div>
+    </div>
+
+    <div class="sensor-card">
+
+        <div class="input-group">
+            <label>🌧️ Rainfall (mm)</label>
+            <input
+                type="number"
+                id="rainfall"
+                value="120"
+                placeholder="Enter rainfall">
+        </div>
+
+        <div class="input-group">
+            <label>🌊 Water Level (m)</label>
+            <input
+                type="number"
+                id="waterLevel"
+                value="4.4"
+                step="0.1"
+                placeholder="Enter water level">
+        </div>
+
+        <div class="input-group">
+            <label>🌡️ Temperature (°C)</label>
+            <input
+                type="number"
+                id="temperature"
+                value="26"
+                placeholder="Enter temperature">
+        </div>
+
+        <div class="input-group">
+            <label>💧 Humidity (%)</label>
+            <input
+                type="number"
+                id="humidity"
+                value="82"
+                placeholder="Enter humidity">
+        </div>
+
+    </div>
+
+</section>
+
+
+     
+<section id="ai-result">
+
+    <div class="section-heading">
+        <div>
+            <small>ARTIFICIAL INTELLIGENCE</small>
+            <h2>AI Flood Risk Analysis</h2>
+        </div>
+    </div>
+
+    <div class="ai-result-card">
+
+        <div class="result-icon">🌊</div>
+
+        <div class="result-info">
+            <span>FLOOD RISK</span>
+            <h3 id="aiRisk">Waiting for scan...</h3>
+        </div>
+
+        <div class="result-probability">
+            <span>PROBABILITY</span>
+            <strong id="aiProbability">--%</strong>
+        </div>
+
+    </div>
+
+</section>
+
+
+        <!-- ALERT CENTER -->
+
+        <section id="alerts">
+
+            <div class="alert-panel">
+
+                <div class="alert-title">
+
+                    <div>
+                        <small>EMERGENCY MANAGEMENT</small>
+                        <h2>Alert Center</h2>
+                    </div>
+
+                    <button onclick="showAlert()">
+                        + CREATE ALERT
+                    </button>
+
+                </div>
+
+
+                <div id="alertList">
+
+                    <div class="alert-item">
+
+                        <div class="alert-symbol">
+                            !
+                        </div>
+
+                        <div>
+                            <b>Moderate Fire Risk</b>
+                            <p>
+                                Increased temperature detected
+                                in monitored region.
+                            </p>
+                        </div>
+
+                        <span>12 min ago</span>
+
+                    </div>
+
+
+                    <div class="alert-item safe-alert">
+
+                        <div class="alert-symbol">
+                            ✓
+                        </div>
+
+                        <div>
+                            <b>Flood Monitoring Stable</b>
+                            <p>
+                                Water level remains within
+                                normal operating range.
+                            </p>
+                        </div>
+
+                        <span>28 min ago</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    <section id="map"> 
+        <div class="section-heading">
+             <div> <small>GEOSPATIAL INTELLIGENCE</small> 
+       
+                <h2>Live Disaster Risk Map</h2> 
+            
+            </div> <div id="mapStatus"> ● LIVE MAP </div
+                > </div> <div class="real-map-container"> 
+                    <div id="disasterMap"></div> 
+                    <div class="map-legend"> 
+                     <h4>RISK LEVEL</h4> 
+             <div> 
+        <span class="legend-dot green-dot"></span> 
+        Low Risk </div> 
+         <div>
+                             
+
+            <span class="legend-dot yellow-dot">
+
+            </span> Moderate </div> 
+            <div> 
+                <span class="legend-dot orange-dot"></span>
+            High Risk </div> 
+        <div> 
+             <span class="legend-dot red-dot"></span> 
+             Critical </div>
+            </div>
+        </div>
+   </section>
+
+
+
+
+        <section id="assistant">
+
+            <div class="ai-section">
+
+                <div class="ai-heading">
+
+                    <div class="ai-logo">
+                        ✦
+                    </div>
+
+                    <div>
+                        <small>ARTIFICIAL INTELLIGENCE</small>
+                        <h2>DisasterSense AI Assistant</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="chat-window">
+
+                    <div id="chatMessages">
+
+                        <div class="message bot">
+                            <b>AI Assistant</b>
+
+                            <p>
+                                Hello! I'm DisasterSense AI.
+                                Ask me about flood, fire,
+                                storms or emergency safety.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="chat-input">
+
+                        <input
+                            id="userMessage"
+                            type="text"
+                            placeholder="Ask DisasterSense AI..."
+                            onkeydown="handleEnter(event)"
+                        >
+
+                        <button onclick="sendMessage()">
+                            ➤
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+   
+
+    <footer>
+
+        <div>
+            <b>DisasterSense AI</b>
+            <p>
+                AI-assisted disaster early warning
+                and response platform.
+            </p>
+        </div>
+
+        <div>
+            <span>MODEL STATUS</span>
+            <b class="green">● ONLINE</b>
+        </div>
+
+        <div>
+            © 2026 DisasterSense
+        </div>
+
+    </footer>
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
