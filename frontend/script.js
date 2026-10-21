@@ -6,7 +6,7 @@
 // =====================================================
 // 1. RUN AI RISK SCAN
 // =====================================================
-
+const API_URL = "https://ai-disastersense-1.onrender.com";
 async function startScan() {
 
     console.log("🚀 RUN RISK SCAN CLICKED");
@@ -69,18 +69,15 @@ async function startScan() {
         console.log("🔌 Checking Flask backend...");
 
 
-        const healthResponse = await fetch(
-            "http://127.0.0.1:5000/health"
-        );
+       const healthResponse = await fetch(
+    "https://ai-disastersense-1.onrender.com/health"
+);
 
-
-        if (!healthResponse.ok) {
-
-            throw new Error(
-                "Flask /health endpoint failed"
-            );
-
-        }
+if (!healthResponse.ok) {
+    throw new Error(
+        "Flask /health endpoint failed"
+    );
+}
 
 
         console.log("✅ Flask backend connected");
