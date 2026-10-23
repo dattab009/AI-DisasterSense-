@@ -238,9 +238,9 @@ if __name__ == "__main__":
     print("======================================")
     print("   AI DisasterSense Backend")
     print("======================================")
-    print("Backend: http://127.0.0.1:5000")
-    print("Health : http://127.0.0.1:5000/health")
-    print("Predict: http://127.0.0.1:5000/predict")
+    print("Backend: https://ai-disastersense-1.onrender.com")
+    print("Health : https://ai-disastersense-1.onrender.com/health")
+    print("Predict: https://ai-disastersense-1.onrender.com/predict")
     print("======================================")
     print("")
 
