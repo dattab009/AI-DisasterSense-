@@ -299,141 +299,70 @@ if (!healthResponse.ok) {
 }
 
 
-// =====================================================
-// 2. LIVE DISASTER MAP
-// =====================================================
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+ // =====================================================
+ // LIVE DISASTER MAP - CLICK ANYWHERE TO SELECT LOCATION
+ // =====================================================
 
-        console.log("🗺️ Initializing Live Map...");
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("🗺️ Initializing Live Map...");
 
-
-        // ---------------------------------------------
-        // CHECK LEAFLET
-        // ---------------------------------------------
-
-        if (typeof L === "undefined") {
-
-            console.error(
-                "❌ Leaflet library not loaded"
-            );
-
-            return;
-        }
-
-
-        // ---------------------------------------------
-        // CHECK MAP ELEMENT
-        // ---------------------------------------------
-
-        const mapElement =
-            document.getElementById("disasterMap");
-
-
-        if (!mapElement) {
-
-            console.error(
-                "❌ disasterMap element not found"
-            );
-
-            return;
-        }
-
-
-        // ---------------------------------------------
-        // CREATE MAP
-        // ---------------------------------------------
-
-        const map =
-            L.map("disasterMap").setView(
-                [16.70, 74.24],
-                7
-            );
-
-
-        // ---------------------------------------------
-        // OPENSTREETMAP TILES
-        // ---------------------------------------------
-
-        L.tileLayer(
-            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            {
-                attribution:
-                    "&copy; OpenStreetMap contributors",
-
-                maxZoom: 19
-            }
-        ).addTo(map);
-
-
-        // ---------------------------------------------
-        // SANGli MARKER
-        // ---------------------------------------------
-
-        L.marker(
-            [16.70, 74.24]
-        )
-        .addTo(map)
-        .bindPopup(
-            "<b>Sangli</b><br>" +
-            "Disaster Monitoring Point"
-        );
-
-
-        // ---------------------------------------------
-        // KOLHAPUR
-        // ---------------------------------------------
-
-        L.marker(
-            [16.70, 74.24]
-        )
-        .addTo(map)
-        .bindPopup(
-            "<b>Sangli</b><br>" +
-            "Risk Monitoring Area"
-        );
-
-
-        // ---------------------------------------------
-        // KOLHAPUR
-        // ---------------------------------------------
-
-        L.marker(
-            [16.7050, 74.2433]
-        )
-        .addTo(map)
-        .bindPopup(
-            "<b>Sangli Region</b><br>" +
-            "AI Disaster Monitoring"
-        );
-
-
-        // ---------------------------------------------
-        // MAP READY
-        // ---------------------------------------------
-
-        console.log(
-            "✅ Live Map initialized successfully"
-        );
-
-
-        // ---------------------------------------------
-        // FIX MAP SIZE
-        // ---------------------------------------------
-
-        setTimeout(
-            function () {
-
-                map.invalidateSize();
-
-            },
-            300
-        );
-
+    if (typeof L === "undefined") {
+        console.error("❌ Leaflet library not loaded");
+        return;
     }
-);
+
+    const mapElement = document.getElementById("disasterMap");
+
+    if (!mapElement) {
+        console.error("❌ disasterMap element not found");
+        return;
+    }
+
+    // Initial map view: India
+    const map = L.map("disasterMap").setView([20.5937, 78.9629], 5);
+
+    // OpenStreetMap
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors",
+        maxZoom: 19
+    }).addTo(map);
+
+    // Marker for the location selected by the user
+    let selectedMarker = null;
+
+    // Click anywhere on the map
+    map.on("click", function (event) {
+        const lat = event.latlng.lat;
+        const lng = event.latlng.lng;
+
+        // Remove the previous selected marker
+        if (selectedMarker) {
+            map.removeLayer(selectedMarker);
+        }
+
+        // Add a marker at the clicked location
+        selectedMarker = L.marker([lat, lng]).addTo(map);
+
+        selectedMarker.bindPopup(
+            "<b>Selected Location</b><br>" +
+            "Latitude: " + lat.toFixed(5) + "<br>" +
+            "Longitude: " + lng.toFixed(5)
+        ).openPopup();
+
+        console.log("📍 Selected location:", {
+            latitude: lat,
+            longitude: lng
+        });
+    });
+
+    console.log("✅ Live Map initialized successfully");
+
+    setTimeout(function () {
+        map.invalidateSize();
+    }, 300);
+});
+
 
 
 // =====================================================
@@ -454,82 +383,38 @@ function showAlert() {
 // 4. AI ASSISTANT
 // =====================================================
 
+
 function sendMessage() {
-
-    const input =
-        document.getElementById("userMessage");
-
-    const chatBox =
-        document.getElementById("chatBox");
-
+    const input = document.getElementById("userMessage");
+    const chatBox = document.getElementById("chatMessages");
 
     if (!input || !chatBox) {
-
-        console.error(
-            "AI Assistant elements not found"
-        );
-
+        console.error("AI Assistant elements not found");
         return;
-
     }
 
+    const message = input.value.trim();
 
-    const message =
-        input.value.trim();
+    if (message === "") return;
 
-
-    if (message === "") {
-
-        return;
-
-    }
-
-
-    // User message
-
-    const userMessage =
-        document.createElement("div");
-
-    userMessage.className =
-        "user-message";
-
-    userMessage.innerText =
-        message;
-
-    chatBox.appendChild(
-        userMessage
-    );
-
+    // Display user message
+    const userMessage = document.createElement("div");
+    userMessage.className = "message user";
+    userMessage.innerText = message;
+    chatBox.appendChild(userMessage);
 
     input.value = "";
 
+    // Display AI response
+    setTimeout(() => {
+        const aiMessage = document.createElement("div");
+        aiMessage.className = "message bot";
 
-    // AI response
+        aiMessage.innerText = generateResponse(message);
 
-    setTimeout(
-        function () {
-
-            const aiMessage =
-                document.createElement("div");
-
-            aiMessage.className =
-                "ai-message";
-
-            aiMessage.innerText =
-                generateResponse(message);
-
-            chatBox.appendChild(
-                aiMessage
-            );
-
-
-            chatBox.scrollTop =
-                chatBox.scrollHeight;
-
-        },
-        500
-    );
-
+        chatBox.appendChild(aiMessage);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }, 500);
 }
 
 
@@ -609,7 +494,8 @@ function handleEnter(event) {
     if (
         event.key === "Enter"
     ) {
-
+        event.preventDefault();
+        
         sendMessage();
 
     }
