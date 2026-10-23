@@ -7,6 +7,12 @@
 // 1. RUN AI RISK SCAN
 // =====================================================
 const API_URL = "https://ai-disastersense-1.onrender.com";
+let selectedLatitude = null;
+let selectedLongitude = null;
+if (selectedLatitude === null || selectedLongitude === null) {
+    alert("Please select a location on the map first.");
+    return;
+}
 async function startScan() {
 
     console.log("🚀 RUN RISK SCAN CLICKED");
@@ -100,16 +106,13 @@ if (!healthResponse.ok) {
                 },
 
                 body: JSON.stringify({
-
-                    rainfall: rainfall,
-
-                    water_level: waterLevel,
-
-                    temperature: temperature,
-
-                    humidity: humidity
-
-                })
+                rainfall: rainfall,
+                water_level: waterLevel,
+                 temperature: temperature,
+                 humidity: humidity,
+                 latitude: selectedLatitude,
+                 longitude: selectedLongitude
+})
             }
         );
 
@@ -299,6 +302,10 @@ if (!healthResponse.ok) {
 }
 
 
+// =====================================================
+// 2. LIVE DISASTER MAP
+// =====================================================
+
 
  // =====================================================
  // LIVE DISASTER MAP - CLICK ANYWHERE TO SELECT LOCATION
@@ -320,15 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Initial map view: India
-
-const map = L.map("disasterMap", {
-    maxBounds: [
-        [5.0, 65.0],
-        [38.5, 100.0]
-    ],
-    maxBoundsViscosity: 1.0
-}).setView([19.5, 75.5], 7);
-
+    const map = L.map("disasterMap").setView([20.5937, 78.9629], 5);
 
     // OpenStreetMap
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -338,8 +337,10 @@ const map = L.map("disasterMap", {
 
     // Marker for the location selected by the user
     let selectedMarker = null;
-
+       selectedLatitude = lat;
+    selectedLongitude = lng;
     // Click anywhere on the map
+    
     map.on("click", function (event) {
         const lat = event.latlng.lat;
         const lng = event.latlng.lng;
@@ -414,91 +415,82 @@ function sendMessage() {
     input.value = "";
 
     // Display AI response
-    
+    setTimeout(() => {
+        const aiMessage = document.createElement("div");
+        aiMessage.className = "message bot";
+
+        aiMessage.innerText = generateResponse(message);
+
+        chatBox.appendChild(aiMessage);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }, 500);
+}
+
+
+// =====================================================
+// 5. AI RESPONSE
+// =====================================================
+
 function generateResponse(message) {
-    const text = message.toLowerCase().trim();
 
-    // FLOOD
-    if (text.includes("flood")) {
-        return "During a flood emergency, move to higher ground, avoid walking or driving through floodwater, follow official alerts, and contact local emergency services if you are in danger.";
-    }
+    const text =
+        message.toLowerCase();
 
-    // HEAVY RAIN
+
     if (
-        text.includes("rain") ||
-        text.includes("rainfall") ||
-        text.includes("heavy rainfall")
+        text.includes("flood")
     ) {
-        return "During heavy rainfall, stay in a safe place, avoid flooded roads and rivers, monitor official weather alerts, and prepare essential supplies.";
+
+        return (
+            "Flood risk can increase due to " +
+            "heavy rainfall, rising water levels " +
+            "and low drainage capacity."
+        );
+
     }
 
-    // FIRE
-    if (text.includes("fire")) {
-        return "If you see a fire, move away from danger, warn nearby people if safe, avoid smoke, and contact the local fire emergency service.";
-    }
 
-    // EARTHQUAKE
     if (
-        text.includes("earthquake") ||
-        text.includes("quake")
+        text.includes("fire")
     ) {
-        return "During an earthquake, drop, cover, and hold on. Stay away from windows. If outdoors, move away from buildings, trees, and power lines.";
+
+        return (
+            "Fire risk can be monitored using " +
+            "temperature, humidity and environmental data."
+        );
+
     }
 
-    // CYCLONE
+
     if (
-        text.includes("cyclone") ||
-        text.includes("hurricane")
+        text.includes("earthquake")
     ) {
-        return "Follow official cyclone warnings, secure loose outdoor objects, prepare drinking water and essential supplies, and evacuate if authorities instruct you to do so.";
+
+        return (
+            "Earthquake monitoring requires " +
+            "seismic activity and geological data."
+        );
+
     }
 
-    // LANDSLIDE
-    if (text.includes("landslide")) {
-        return "Warning signs can include ground cracks, leaning trees, and unusual rumbling. Move away from the slope if safe and follow official evacuation instructions.";
-    }
 
-    // TSUNAMI
-    if (text.includes("tsunami")) {
-        return "If you are in a coastal area and receive a tsunami warning, move immediately to higher ground or inland and follow official evacuation instructions.";
-    }
-
-    // AI PREDICTION
     if (
-        text.includes("ai") ||
-        text.includes("prediction") ||
-        text.includes("predict")
+        text.includes("alert")
     ) {
-        return "AI can analyze rainfall, water levels, temperature, humidity, and other environmental data to estimate disaster risks. Predictions are estimates, not guarantees.";
+
+        return (
+            "The disaster alert system continuously " +
+            "monitors risk indicators."
+        );
+
     }
 
-    // ALERTS
-    if (
-        text.includes("alert") ||
-        text.includes("warning")
-    ) {
-        return "Check official government and weather department alerts. If authorities issue an evacuation order, follow their instructions promptly.";
-    }
 
-    // SAFETY
-    if (
-        text.includes("safe") ||
-        text.includes("safety") ||
-        text.includes("emergency")
-    ) {
-        return "Stay calm, move away from immediate danger, keep your phone charged, prepare essential supplies, and follow instructions from local emergency authorities.";
-    }
+    return (
+        "I can help you understand disaster risks, " +
+        "AI predictions and emergency response."
+    );
 
-    // THANK YOU
-    if (
-        text.includes("thank") ||
-        text.includes("thanks")
-    ) {
-        return "You're welcome! Stay safe. I can help with disaster safety, flood risks, fires, earthquakes, cyclones, and AI predictions.";
-    }
-
-    // DEFAULT RESPONSE
-    return "I can help with floods, heavy rainfall, fires, earthquakes, cyclones, landslides, emergency safety, and AI disaster predictions. Please ask me a question about one of these topics.";
 }
 
 
@@ -512,7 +504,8 @@ function handleEnter(event) {
         event.key === "Enter"
     ) {
         event.preventDefault();
-        
+        sendMessage();
+
         sendMessage();
 
     }
