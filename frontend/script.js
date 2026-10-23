@@ -414,82 +414,91 @@ function sendMessage() {
     input.value = "";
 
     // Display AI response
-    setTimeout(() => {
-        const aiMessage = document.createElement("div");
-        aiMessage.className = "message bot";
-
-        aiMessage.innerText = generateResponse(message);
-
-        chatBox.appendChild(aiMessage);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }, 500);
-}
-
-
-// =====================================================
-// 5. AI RESPONSE
-// =====================================================
-
+    
 function generateResponse(message) {
+    const text = message.toLowerCase().trim();
 
-    const text =
-        message.toLowerCase();
-
-
-    if (
-        text.includes("flood")
-    ) {
-
-        return (
-            "Flood risk can increase due to " +
-            "heavy rainfall, rising water levels " +
-            "and low drainage capacity."
-        );
-
+    // FLOOD
+    if (text.includes("flood")) {
+        return "During a flood emergency, move to higher ground, avoid walking or driving through floodwater, follow official alerts, and contact local emergency services if you are in danger.";
     }
 
-
+    // HEAVY RAIN
     if (
-        text.includes("fire")
+        text.includes("rain") ||
+        text.includes("rainfall") ||
+        text.includes("heavy rainfall")
     ) {
-
-        return (
-            "Fire risk can be monitored using " +
-            "temperature, humidity and environmental data."
-        );
-
+        return "During heavy rainfall, stay in a safe place, avoid flooded roads and rivers, monitor official weather alerts, and prepare essential supplies.";
     }
 
-
-    if (
-        text.includes("earthquake")
-    ) {
-
-        return (
-            "Earthquake monitoring requires " +
-            "seismic activity and geological data."
-        );
-
+    // FIRE
+    if (text.includes("fire")) {
+        return "If you see a fire, move away from danger, warn nearby people if safe, avoid smoke, and contact the local fire emergency service.";
     }
 
-
+    // EARTHQUAKE
     if (
-        text.includes("alert")
+        text.includes("earthquake") ||
+        text.includes("quake")
     ) {
-
-        return (
-            "The disaster alert system continuously " +
-            "monitors risk indicators."
-        );
-
+        return "During an earthquake, drop, cover, and hold on. Stay away from windows. If outdoors, move away from buildings, trees, and power lines.";
     }
 
+    // CYCLONE
+    if (
+        text.includes("cyclone") ||
+        text.includes("hurricane")
+    ) {
+        return "Follow official cyclone warnings, secure loose outdoor objects, prepare drinking water and essential supplies, and evacuate if authorities instruct you to do so.";
+    }
 
-    return (
-        "I can help you understand disaster risks, " +
-        "AI predictions and emergency response."
-    );
+    // LANDSLIDE
+    if (text.includes("landslide")) {
+        return "Warning signs can include ground cracks, leaning trees, and unusual rumbling. Move away from the slope if safe and follow official evacuation instructions.";
+    }
 
+    // TSUNAMI
+    if (text.includes("tsunami")) {
+        return "If you are in a coastal area and receive a tsunami warning, move immediately to higher ground or inland and follow official evacuation instructions.";
+    }
+
+    // AI PREDICTION
+    if (
+        text.includes("ai") ||
+        text.includes("prediction") ||
+        text.includes("predict")
+    ) {
+        return "AI can analyze rainfall, water levels, temperature, humidity, and other environmental data to estimate disaster risks. Predictions are estimates, not guarantees.";
+    }
+
+    // ALERTS
+    if (
+        text.includes("alert") ||
+        text.includes("warning")
+    ) {
+        return "Check official government and weather department alerts. If authorities issue an evacuation order, follow their instructions promptly.";
+    }
+
+    // SAFETY
+    if (
+        text.includes("safe") ||
+        text.includes("safety") ||
+        text.includes("emergency")
+    ) {
+        return "Stay calm, move away from immediate danger, keep your phone charged, prepare essential supplies, and follow instructions from local emergency authorities.";
+    }
+
+    // THANK YOU
+    if (
+        text.includes("thank") ||
+        text.includes("thanks")
+    ) {
+        return "You're welcome! Stay safe. I can help with disaster safety, flood risks, fires, earthquakes, cyclones, and AI predictions.";
+    }
+
+    // DEFAULT RESPONSE
+    return "I can help with floods, heavy rainfall, fires, earthquakes, cyclones, landslides, emergency safety, and AI disaster predictions. Please ask me a question about one of these topics.";
 }
 
 
