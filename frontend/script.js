@@ -320,7 +320,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Initial map view: India
-    const map = L.map("disasterMap").setView([20.5937, 78.9629], 5);
+
+const map = L.map("disasterMap", {
+    maxBounds: [
+        [5.0, 65.0],
+        [38.5, 100.0]
+    ],
+    maxBoundsViscosity: 1.0
+}).setView([19.5, 75.5], 7);
+
 
     // OpenStreetMap
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
