@@ -385,15 +385,17 @@ document.addEventListener(
             }
 
             // Add marker only where the user clicks
-          L.marker([16.70, 74.24])
-                  .addTo(map);
-               
+         
+            // Add marker exactly where the user clicks
+            selectedMarker = L.marker([lat, lng])
+                .addTo(map);
 
             selectedMarker.bindPopup(
                 "<b>Selected Location</b><br>" +
                 "Latitude: " + lat.toFixed(5) + "<br>" +
                 "Longitude: " + lng.toFixed(5)
             ).openPopup();
+
 
             console.log("Selected location:", lat, lng);
         });
