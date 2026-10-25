@@ -386,20 +386,30 @@ document.addEventListener(
 
             // Add marker only where the user clicks
          
-            // Add marker exactly where the user clicks
-            selectedMarker = L.marker([lat, lng])
-                .addTo(map);
+           // Declare this once, before map.on("click", ...)
+let selectedMarker = null;
 
-            selectedMarker.bindPopup(
-                "<b>Selected Location</b><br>" +
-                "Latitude: " + lat.toFixed(5) + "<br>" +
-                "Longitude: " + lng.toFixed(5)
-            ).openPopup();
+// Add marker wherever the user clicks
+map.on("click", function (event) {
+    const lat = event.latlng.lat;
+    const lng = event.latlng.lng;
 
+    // Remove previous selected marker
+    if (selectedMarker) {
+        map.removeLayer(selectedMarker);
+    }
 
-            console.log("Selected location:", lat, lng);
-        });
+    // Add marker at the newly clicked location
+    selectedMarker = L.marker([lat, lng]).addTo(map);
 
+    selectedMarker.bindPopup(
+        "<b>Selected Location</b><br>" +
+        "Latitude: " + lat.toFixed(5) + "<br>" +
+        "Longitude: " + lng.toFixed(5)
+    ).openPopup();
+
+    console.log("Selected location:", lat, lng);
+});
 
         // ---------------------------------------------
         // MAP READY
