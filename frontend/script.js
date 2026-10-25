@@ -368,46 +368,34 @@ document.addEventListener(
         ).addTo(map);
 
 
+     
         // ---------------------------------------------
-        // SANGli MARKER
-        // ---------------------------------------------
-
-        L.marker(
-            [16.70, 74.24]
-        )
-        .addTo(map)
-        .bindPopup(
-            "<b>Sangli</b><br>" +
-            "Disaster Monitoring Point"
-        );
-
-
-        // ---------------------------------------------
-        // KOLHAPUR
+        // CLICK TO SELECT DISASTER LOCATION
         // ---------------------------------------------
 
-        L.marker(
-            [16.70, 74.24]
-        )
-        .addTo(map)
-        .bindPopup(
-            "<b>Sangli</b><br>" +
-            "Risk Monitoring Area"
-        );
+        let selectedMarker = null;
 
+        map.on("click", function (e) {
+            const lat = e.latlng.lat;
+            const lng = e.latlng.lng;
 
-        // ---------------------------------------------
-        // KOLHAPUR
-        // ---------------------------------------------
+            // Remove the previous marker
+            if (selectedMarker) {
+                map.removeLayer(selectedMarker);
+            }
 
-        L.marker(
-            [16.7050, 74.2433]
-        )
-        .addTo(map)
-        .bindPopup(
-            "<b>Sangli Region</b><br>" +
-            "AI Disaster Monitoring"
-        );
+            // Add marker only where the user clicks
+            selectedMarker = L.marker([lat, lng])
+                .addTo(map);
+
+            selectedMarker.bindPopup(
+                "<b>Selected Location</b><br>" +
+                "Latitude: " + lat.toFixed(5) + "<br>" +
+                "Longitude: " + lng.toFixed(5)
+            ).openPopup();
+
+            console.log("Selected location:", lat, lng);
+        });
 
 
         // ---------------------------------------------
