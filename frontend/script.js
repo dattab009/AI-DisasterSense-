@@ -385,8 +385,9 @@ document.addEventListener(
             }
 
             // Add marker only where the user clicks
-            selectedMarker = L.marker([lat, lng])
-                .addTo(map);
+          L.marker([16.70, 74.24])
+                  .addTo(map);
+               
 
             selectedMarker.bindPopup(
                 "<b>Selected Location</b><br>" +
